@@ -1,3 +1,3 @@
 # laze
 
-A typed REST clien
+A typed REST client
