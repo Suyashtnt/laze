@@ -19,7 +19,8 @@ class Test {
 
 test('Test', async (t) => {
   const test = new Test();
-  const todo = await test.getAllTodos();
+  const todos = await test.getAllTodos();
 
-  t.is(todo.length, 200);
+  t.log(todos[0]);
+  t.is(todos.length, 200);
 });
