@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { GET, RestClient } from './index';
+import { Body, DELETE, GET, PATCH, Path, POST, PUT, RestClient } from './index';
 
 interface Todo {
   id: number;
@@ -13,7 +13,33 @@ interface Todo {
 class Test {
   @GET('/todos')
   async getAllTodos(): Promise<Todo[]> {
-    return [];
+    throw new Error('not implemented');
+  }
+
+  @POST('/todos')
+  async addTodo(@Body _todo: Todo): Promise<Todo> {
+    throw new Error('not implemented');
+  }
+
+  @PUT('/todos/:id')
+  async replaceTodo(
+    @Path('id') _todoId: number,
+    @Body _newTodo: Todo
+  ): Promise<Todo> {
+    throw new Error('not implemented');
+  }
+
+  @PATCH('/todos/:id')
+  async updateTodo(
+    @Path('id') _todoId: number,
+    @Body _newTodo: Todo
+  ): Promise<Todo> {
+    throw new Error('not implemented');
+  }
+
+  @DELETE('/todos/:id')
+  async deleteTodo(@Path('id') _todoId: number): Promise<void> {
+    throw new Error('not implemented');
   }
 }
 

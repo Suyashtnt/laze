@@ -31,11 +31,12 @@ function generateHttpRequest(
   };
 }
 
-export const GET = (path: string) => generateHttpRequest(path, HTTPMethod.GET);
-export const POST = (path: string) =>
-  generateHttpRequest(path, HTTPMethod.POST);
-export const PATCH = (path: string) =>
-  generateHttpRequest(path, HTTPMethod.PATCH);
-export const PUT = (path: string) => generateHttpRequest(path, HTTPMethod.PUT);
-export const DELETE = (path: string) =>
-  generateHttpRequest(path, HTTPMethod.DELETE);
+function createMethodHandler(method: HTTPMethod) {
+  return (path: string) => generateHttpRequest(path, method);
+}
+
+export const GET = createMethodHandler(HTTPMethod.GET);
+export const POST = createMethodHandler(HTTPMethod.POST);
+export const PATCH = createMethodHandler(HTTPMethod.PATCH);
+export const DELETE = createMethodHandler(HTTPMethod.DELETE);
+export const PUT = createMethodHandler(HTTPMethod.PUT);
