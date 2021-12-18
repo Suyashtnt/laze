@@ -1,4 +1,6 @@
+import 'reflect-metadata';
+
 export * from './ArgumentDecorators';
-export * from './HttpMethods';
+export * from './MethodDecorators';
 export * from './Interfaces';
 export * from './RESTApi';
