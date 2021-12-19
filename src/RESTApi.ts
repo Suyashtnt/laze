@@ -1,5 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { $fetch } from "https://cdn.skypack.dev/ohmyfetch@v0.4.11?dts";
+import { compile } from "https://raw.githubusercontent.com/pillarjs/path-to-regexp/master/src/index.ts";
 
 import type { Request } from "./Interfaces.ts";
 import { httpClassesMetaKey } from "./Interfaces.ts";
@@ -27,22 +28,22 @@ export const RestClient = (basePath: string) =>
           const bodyIndex = method.argumentIndexes.body;
 
           this[method.function] = function (...methodArgs: any[]) {
+            const mapToEntry = (
+              [index, key]: [number, string],
+            ) => [key, methodArgs[index]];
+
             const params = new URLSearchParams(
-              Array.from(method.argumentIndexes.query).map(([index, key]) => [
-                key,
-                methodArgs[index],
-              ]),
+              Array.from(method.argumentIndexes.query).map(mapToEntry),
             );
 
-            let path = `${basePath}${method.path}?${params}`;
+            const compiledPath = compile(method.path)(
+              Object.fromEntries(
+                Array.from(method.argumentIndexes.path.entries())
+                  .map(mapToEntry),
+              ),
+            );
 
-            for (const entry of method.argumentIndexes.path.entries()) {
-              const [index, pathName] = entry;
-              // jank? yes. works? yes. better solution? probably
-              path = path.replaceAll(`:${pathName}`, methodArgs[index]);
-            }
-
-            return $fetch(path, {
+            return $fetch(`${basePath}${compiledPath}?${params}`, {
               method: method.method,
               headers: Object.fromEntries(method.headers),
               body: bodyIndex ? methodArgs[bodyIndex] : undefined,
