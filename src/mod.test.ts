@@ -33,7 +33,7 @@ class TestClient {
   }
 
   @POST("/todos")
-  addTodo(@Body _todo: Omit<Todo, "id">): Promise<Todo> {
+  addTodo(@Body _todo: Omit<Todo, "id">): Promise<Pick<Todo, "id">> {
     throw new Error("not implemented");
   }
 
@@ -81,4 +81,29 @@ Deno.test("adding todo", async () => {
   });
 
   assertEquals(todo.id, 201);
+});
+
+Deno.test("replacing todo", async () => {
+  const todo = await new TestClient().replaceTodo(1, {
+    userId: 1,
+    title: "test",
+    completed: false,
+    id: 1,
+  });
+
+  assertEquals(todo.title, "test");
+  assertEquals(todo.userId, 1);
+});
+
+Deno.test("updating todo", async () => {
+  const todo = await new TestClient().updateTodo(1, {
+    title: "test",
+  });
+
+  assertEquals(todo.title, "test");
+  assertEquals(todo.userId, 1);
+});
+
+Deno.test("deleting todo", async () => {
+  await new TestClient().deleteTodo(1);
 });
