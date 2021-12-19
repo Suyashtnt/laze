@@ -40,7 +40,6 @@ export const RestClient = (basePath: string) =>
               method: method.method,
               headers: Object.fromEntries(method.headers),
               body: bodyIndex ? methodArgs[bodyIndex] : undefined,
-              parseResponse: (response) => JSON.parse(response)
             });
           };
         }

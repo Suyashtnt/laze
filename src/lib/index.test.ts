@@ -1,4 +1,4 @@
-import test from 'ava';
+import anyTest, { TestFn } from 'ava';
 
 import {
   Body,
@@ -10,8 +10,12 @@ import {
   POST,
   PUT,
   Query,
-  RestClient,
+  RestClient
 } from './index';
+
+const test = anyTest as TestFn<{
+  client: TestClient;
+}>;
 
 interface Todo {
   id: number;
@@ -21,7 +25,7 @@ interface Todo {
 }
 
 @RestClient('https://jsonplaceholder.typicode.com')
-class Test {
+class TestClient {
   @GET('/todos')
   async getAllTodos(): Promise<Todo[]> {
     throw new Error('not implemented');
@@ -32,13 +36,11 @@ class Test {
     throw new Error('not implemented');
   }
 
-  @Header('Content-Type', 'application/json; charset=UTF-8')
   @POST('/todos')
-  async addTodo(@Body _todo: Todo): Promise<Todo> {
+  async addTodo(@Body _todo: Omit<Todo, 'id'>): Promise<Todo> {
     throw new Error('not implemented');
   }
 
-  @Header('Content-Type', 'application/json; charset=UTF-8')
   @PUT('/todos/:id')
   async replaceTodo(
     @Path('id') _todoId: number,
@@ -47,7 +49,8 @@ class Test {
     throw new Error('not implemented');
   }
 
-  @Header('Content-Type', 'application/json; charset=UTF-8')
+  // for test cov and unit testing debugging
+  @Header('Test', 'Debugging time')
   @PATCH('/todos/:id')
   async updateTodo(
     @Path('id') _todoId: number,
@@ -62,13 +65,28 @@ class Test {
   }
 }
 
-test('Test', async (t) => {
-  const test = new Test();
-  const todos = await test.getAllTodos();
-  const updatedTodo = await test.updateTodo(1, {
-    title: 'updated',
-  });
+test.before(t => {
+  t.context.client = new TestClient();
+});
+
+test('getting all todos', async (t) => {
+  const todos = await t.context.client.getAllTodos();
 
   t.is(todos.length, 200);
-  t.is(updatedTodo.title, 'updated');
+});
+
+test('getting todos for user', async (t) => {
+  const todos = await t.context.client.getTodosForUser(1);
+
+  t.is(todos.length, 20);
+});
+
+test('adding todo', async (t) => {
+  const todo = await t.context.client.addTodo({
+    userId: 1,
+    title: 'test',
+    completed: false
+  });
+
+  t.is(todo.id, 201);
 });
