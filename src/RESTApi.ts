@@ -15,12 +15,13 @@ export const RestClient = (basePath: string) =>
 
         const methods: Request[] | undefined = Reflect.getMetadata(
           httpClassesMetaKey,
-          this
+          this,
         );
-        if (!methods)
+        if (!methods) {
           throw new Error(
-            `Class ${baseClass.name} is not a REST API. Define HTTP methods first.`
+            `Class ${baseClass.name} is not a REST API. Define HTTP methods first.`,
           );
+        }
 
         for (const method of methods) {
           const bodyIndex = method.argumentIndexes.body;
@@ -30,7 +31,7 @@ export const RestClient = (basePath: string) =>
               Array.from(method.argumentIndexes.query).map(([index, key]) => [
                 key,
                 methodArgs[index],
-              ])
+              ]),
             );
 
             let path = `${basePath}${method.path}?${params}`;

@@ -40,7 +40,7 @@ class TestClient {
   @PUT("/todos/:id")
   replaceTodo(
     @Path("id") _todoId: number,
-    @Body _newTodo: Todo
+    @Body _newTodo: Todo,
   ): Promise<Todo> {
     throw new Error("not implemented");
   }
@@ -50,7 +50,7 @@ class TestClient {
   @PATCH("/todos/:id")
   updateTodo(
     @Path("id") _todoId: number,
-    @Body _newTodo: Partial<Todo>
+    @Body _newTodo: Partial<Todo>,
   ): Promise<Todo> {
     throw new Error("not implemented");
   }

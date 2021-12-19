@@ -1,9 +1,9 @@
 export enum HTTPMethod {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  PATCH = 'PATCH',
-  DELETE = 'DELETE',
+  GET = "GET",
+  POST = "POST",
+  PUT = "PUT",
+  PATCH = "PATCH",
+  DELETE = "DELETE",
 }
 
 export interface ArgumentIndexes {
@@ -32,7 +32,7 @@ export type Paths = Map<number, string>;
  */
 export type Queries = Map<number, string>;
 
-export const bodyMetaKey = Symbol('body');
-export const httpClassesMetaKey = Symbol('httpClasses');
-export const queryMetaKey = Symbol('query');
-export const pathMetaKey = Symbol('path');
+export const bodyMetaKey = Symbol("body");
+export const httpClassesMetaKey = Symbol("httpClasses");
+export const queryMetaKey = Symbol("query");
+export const pathMetaKey = Symbol("path");

@@ -23,7 +23,7 @@ await Deno.writeTextFile("builds/web/bundle.js", result.code, {
 console.log(
   `A web-compatible build has been made! size: ${
     byteCount(result.code) / 1000
-  }kb`
+  }kb`,
 );
 
 esbuild.stop();
