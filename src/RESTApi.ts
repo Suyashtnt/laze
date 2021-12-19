@@ -1,8 +1,9 @@
 // deno-lint-ignore-file no-explicit-any
-import { $fetch } from "https://cdn.skypack.dev/ohmyfetch?dts";
+import { $fetch } from "https://cdn.skypack.dev/ohmyfetch@v0.4.11?dts";
 
 import type { Request } from "./Interfaces.ts";
 import { httpClassesMetaKey } from "./Interfaces.ts";
+import "https://deno.land/x/reflection@0.0.2/mod.ts";
 
 type Constructor = { new (...args: any[]): any };
 

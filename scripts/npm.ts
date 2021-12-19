@@ -2,7 +2,7 @@ import { build } from "https://deno.land/x/dnt@0.8.0/mod.ts";
 
 await build({
   entryPoints: ["./mod.ts"],
-  outDir: "./npm",
+  outDir: "./builds/npm",
   package: {
     name: "laze-rest",
     version: Deno.args[0],
@@ -24,5 +24,5 @@ await build({
   },
 });
 
-Deno.copyFileSync("LICENSE", "npm/LICENSE");
-Deno.copyFileSync("README.md", "npm/README.md");
+Deno.copyFileSync("LICENSE", "builds/npm/LICENSE");
+Deno.copyFileSync("README.md", "builds/npm/README.md");

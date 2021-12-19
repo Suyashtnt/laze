@@ -6,6 +6,8 @@ import {
   queryMetaKey,
 } from "./Interfaces.ts";
 
+import "https://deno.land/x/reflection@0.0.2/mod.ts";
+
 export const Body: ParameterDecorator = (target, propertyKey, index) =>
   Reflect.defineMetadata(bodyMetaKey, index, target, propertyKey);
 

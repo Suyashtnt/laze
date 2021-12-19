@@ -8,6 +8,8 @@ import {
   Request,
 } from "./Interfaces.ts";
 
+import "https://deno.land/x/reflection@0.0.2/mod.ts";
+
 function generateHttpRequest(
   path: string,
   method: HTTPMethod
