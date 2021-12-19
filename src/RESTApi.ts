@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { $fetch } from "https://cdn.skypack.dev/ohmyfetch?dts";
 
 import type { Request } from "./Interfaces.ts";
