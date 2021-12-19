@@ -22,16 +22,14 @@ export const RestClient = (basePath: string) =>
           const bodyIndex = method.argumentIndexes.body;
 
           this[method.function] = function(...methodArgs: any[]) {
-            let path = `${basePath}${method.path}`;
+            const params = new URLSearchParams(Array.from(method.argumentIndexes.query)
+              .map(([ index, key ]) => [ key, methodArgs[ index ] ]))
+
+            let path = `${basePath}${method.path}?${params}`;
 
             for (const entry of method.argumentIndexes.path.entries()) {
               const [index, pathName] = entry;
               path.replaceAll(`:${pathName}`, methodArgs[index]);
-            }
-
-            for (const entry of method.argumentIndexes.query.entries()) {
-              const [index, queryName] = entry;
-              path += `${path.includes('?') ? '&' : '?'}${queryName}=${methodArgs[index]}`;
             }
 
             return $fetch(path, {
