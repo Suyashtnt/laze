@@ -1,6 +1,6 @@
 # laze
 
-A **tiny** typed class-based REST client.
+A **tiny** typed class-based REST client based on [ohmyfetch](https://github.com/unjs/ohmyfetch).
 
 ## usage
 
@@ -23,19 +23,23 @@ import { ... } from "https://github.com/Suyashtnt/laze/releases/download/version
 class TestClient {
   @GET("/todos")
   // laze automatically parses JSON for you into an object
-  // (what api doesnt use json)
   getAllTodos(): Promise<Todo[]> {
-    // the method gets replaced at runtime
+    // this gets replaced at runtime
+    // this shouldn't:tm: be bad for performance
+    throw new Error("not implemented");
   }
 
   @GET("/todos")
   // use a query for ?query=whatever
-  getTodosForUser(@Query("userId") userId: number): Promise<Todo[]> {}
+  getTodosForUser(@Query("userId") userId: number): Promise<Todo[]> {
+    throw new Error("not implemented");
+  }
 
   @POST("/todos")
   // bodies are automatically serialized using JSON
-  // (what api doesnt use json)
-  addTodo(@Body todo: Omit<Todo, "id">): Promise<Pick<Todo, "id">> {}
+  addTodo(@Body todo: Omit<Todo, "id">): Promise<Pick<Todo, "id">> {
+    throw new Error("not implemented");
+  }
 
   // prefix a path variable with :
   @PUT("/todos/:id")
@@ -43,7 +47,9 @@ class TestClient {
     // and use an argument to give it a value
     @Path("id") todoId: number,
     @Body newTodo: Todo,
-  ): Promise<Todo> {}
+  ): Promise<Todo> {
+    throw new Error("not implemented");
+  }
 
   // Headers go before the method because of the way decorators work 
   @Header("Test", "Use wireshark or something to see it being sent")
@@ -51,10 +57,14 @@ class TestClient {
   updateTodo(
     @Path("id") _todoId: number,
     @Body _newTodo: Partial<Todo>,
-  ): Promise<Todo> {}
+  ): Promise<Todo> {
+    throw new Error("not implemented");
+  }
 
   @DELETE("/todos/:id")
-  deleteTodo(@Path("id") _todoId: number): Promise<void> {}
+  deleteTodo(@Path("id") _todoId: number): Promise<void> {
+    throw new Error("not implemented");
+  }
 }
 
 // create a client whenever you want to use it
