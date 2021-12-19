@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { $fetch } from "https://cdn.skypack.dev/ohmyfetch@v0.4.11?dts";
-import { compile } from "https://raw.githubusercontent.com/pillarjs/path-to-regexp/master/src/index.ts";
+import { compile } from "https://cdn.skypack.dev/path-to-regexp@6.2.0?dts";
 
 import type { Request } from "./Interfaces.ts";
 import { httpClassesMetaKey } from "./Interfaces.ts";
