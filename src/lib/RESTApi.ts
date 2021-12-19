@@ -26,11 +26,13 @@ export const RestClient = (basePath: string) =>
 
             for (const entry of method.argumentIndexes.path.entries()) {
               const [index, pathName] = entry;
-              path.replaceAll(`:${pathName}`, methodArgs[index]);
+              // jank? yes. works? yes. better solution? probably
+              path = path.replaceAll(`:${pathName}`, methodArgs[index]);
             }
 
             for (const entry of method.argumentIndexes.query.entries()) {
               const [index, queryName] = entry;
+              // jank? yes. works? yes. better solution? definitely
               path += `${path.includes('?') ? '&' : '?'}${queryName}=${methodArgs[index]}`;
             }
 

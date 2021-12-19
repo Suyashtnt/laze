@@ -65,7 +65,10 @@ class Test {
 test('Test', async (t) => {
   const test = new Test();
   const todos = await test.getAllTodos();
+  const updatedTodo = await test.updateTodo(1, {
+    title: 'updated',
+  });
 
-  t.log(todos[0]);
   t.is(todos.length, 200);
+  t.is(updatedTodo.title, 'updated');
 });
