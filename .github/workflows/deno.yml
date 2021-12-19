@@ -34,4 +34,15 @@ jobs:
         run: deno lint
 
       - name: Run tests
-        run: deno test -A --unstable
+        run: deno test -A --unstable --coverage=cov_profile
+      
+      - name: Generate coverage
+        run: deno coverage cov_profile --lcov > cov_profile.lcov
+      
+      - name: upload to codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: ./cov_profile.lcov
+          flag: unittests
+          name: laze
+          fail_ci_if_error: true
