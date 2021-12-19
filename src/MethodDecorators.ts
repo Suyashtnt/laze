@@ -5,15 +5,15 @@ import {
   HTTPMethod,
   pathMetaKey,
   queryMetaKey,
-  Request
-} from './Interfaces';
+  Request,
+} from "./Interfaces.ts";
 
 function generateHttpRequest(
   path: string,
   method: HTTPMethod
 ): MethodDecorator {
   return (target, methodName, propertyDescriptor: PropertyDescriptor) => {
-    // eslint-disable-next-line @typescript-eslint/ban-types
+    // deno-lint-ignore ban-types
     const value = propertyDescriptor.value as Function;
 
     const existingRequests: HttpClasses =
@@ -27,8 +27,9 @@ function generateHttpRequest(
       argumentIndexes: {
         body: Reflect.getMetadata(bodyMetaKey, target, methodName),
         path: Reflect.getMetadata(pathMetaKey, target, methodName) || new Map(),
-        query: Reflect.getMetadata(queryMetaKey, target, methodName) || new Map()
-      }
+        query:
+          Reflect.getMetadata(queryMetaKey, target, methodName) || new Map(),
+      },
     };
 
     existingRequests.push(newRequest);
@@ -49,29 +50,30 @@ export const PUT = createMethodHandler(HTTPMethod.PUT);
 
 export const Header: (key: string, value: string) => MethodDecorator =
   (key, value) =>
-    (target, _methodName, propertyDescriptor: PropertyDescriptor) => {
-      const requests: HttpClasses = Reflect.getOwnMetadata(
-        httpClassesMetaKey,
-        target
+  (target, _methodName, propertyDescriptor: PropertyDescriptor) => {
+    const requests: HttpClasses | undefined = Reflect.getOwnMetadata(
+      httpClassesMetaKey,
+      target
+    );
+    if (!requests)
+      throw new Error(`No requests found for ${target.constructor.name}`);
+
+    // deno-lint-ignore ban-types
+    const propertyValue = propertyDescriptor.value as Function;
+
+    const request = requests.find((r) => r.function === propertyValue.name);
+    if (!request)
+      throw new Error(
+        "No request found for this function. " +
+          "You need to decorate it with a HTTP method. (@GET, @POST, etc.) " +
+          "If you have decorated it with a HTTP method, make sure it is the last decorator in the stack." +
+          "\n Read this for more: https://www.typescriptlang.org/docs/handbook/decorators.html#decorator-composition"
       );
-      if (!requests)
-        throw new Error(`No requests found for ${target.constructor.name}`);
 
-      // eslint-disable-next-line @typescript-eslint/ban-types
-      const propertyValue = propertyDescriptor.value as Function;
-      const request = requests.find((r) => r.function === propertyValue.name);
-      if (!request)
-        throw new Error(
-          'No request found for this function. ' +
-          'You need to decorate it with a HTTP method. (@GET, @POST, etc.) ' +
-          'If you have decorated it with a HTTP method, make sure it is the last decorator in the stack.' +
-          '\n Read this for more: https://www.typescriptlang.org/docs/handbook/decorators.html#decorator-composition'
-        );
-
-      const newRequest = {
-        ...request,
-        headers: new Map([...request.headers, [key, value]])
-      };
-      requests.push(newRequest);
-      Reflect.defineMetadata(httpClassesMetaKey, requests, target);
+    const newRequest = {
+      ...request,
+      headers: new Map([...request.headers, [key, value]]),
     };
+    requests.push(newRequest);
+    Reflect.defineMetadata(httpClassesMetaKey, requests, target);
+  };

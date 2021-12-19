@@ -1,0 +1,36 @@
+{
+  "$schema": "https://cdn.deno.land/deno/versions/v1.17.0/raw/cli/schemas/config-file.v1.json",
+  "compilerOptions": {
+    "incremental": true,
+    "target": "es2017",
+    "outDir": "build/main",
+    "rootDir": "src",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "declaration": true,
+    "inlineSourceMap": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "traceResolution": false,
+    "listEmittedFiles": false,
+    "listFiles": false,
+    "pretty": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictNullChecks": true,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "types": [],
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
+    ]
+  }
+}
