@@ -13,7 +13,7 @@ import { ... } from "laze-rest"
 // browser via skypack (get a pinned URL for production)
 // https://docs.skypack.dev/skypack-cdn/api-reference/pinned-urls-optimized
 import { ... } from "https://www.skypack.dev/laze-rest"
-// browser bundle containing all dependencies + laze (only ~9kb)
+// browser bundle containing all dependencies + laze (only ~15kb)
 import { ... } from "https://github.com/Suyashtnt/laze/releases/download/version/bundle.js"
 
 // use your own api base path, typicode is the example
