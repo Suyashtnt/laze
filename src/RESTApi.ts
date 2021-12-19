@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { $fetch } from "https://cdn.skypack.dev/ohmyfetch@v0.4.11?dts";
+import destr from "https://deno.land/x/destr@v1.0.0/src/index.ts";
 import { compile } from "https://cdn.skypack.dev/path-to-regexp@6.2.0?dts";
 
 import type { Request } from "./Interfaces.ts";
@@ -27,7 +27,7 @@ export const RestClient = (basePath: string) =>
         for (const method of methods) {
           const bodyIndex = method.argumentIndexes.body;
 
-          this[method.function] = function (...methodArgs: any[]) {
+          this[method.function] = async function (...methodArgs: any[]) {
             const mapToEntry = (
               [index, key]: [number, string],
             ) => [key, methodArgs[index]];
@@ -43,11 +43,23 @@ export const RestClient = (basePath: string) =>
               ),
             );
 
-            return $fetch(`${basePath}${compiledPath}?${params}`, {
+            const headersWithJson = new Map([...method.headers, [
+              "Content-Type",
+              "application/json",
+            ], [
+              "Accept",
+              "application/json",
+            ]]);
+
+            const res = await fetch(`${basePath}${compiledPath}?${params}`, {
               method: method.method,
-              headers: Object.fromEntries(method.headers),
-              body: bodyIndex ? methodArgs[bodyIndex] : undefined,
+              headers: Object.fromEntries(headersWithJson),
+              body: bodyIndex
+                ? JSON.stringify(methodArgs[bodyIndex])
+                : undefined,
             });
+
+            return destr(await res.text());
           };
         }
       }
