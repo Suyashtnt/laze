@@ -18,7 +18,7 @@ export const Path: (path: string) => ParameterDecorator =
 
 export const Query: (name: string) => ParameterDecorator =
   (name) => (target, propertyKey, index) => {
-    const queries: Queries = Reflect.getMetadata(queryMetaKey, target) || new Map();
+    const queries: Queries = Reflect.getMetadata(queryMetaKey, target, propertyKey) || new Map();
     queries.set(index, name);
     Reflect.defineMetadata(queryMetaKey, queries, target, propertyKey);
   };
