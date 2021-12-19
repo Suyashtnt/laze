@@ -15,6 +15,7 @@ await build({
     bugs: {
       url: "https://github.com/suyashtnt/laze/issues",
     },
+    sideEffects: false,
   },
   mappings: {
     "https://deno.land/x/reflection@0.0.2/mod.ts": {
