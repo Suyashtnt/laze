@@ -26,6 +26,11 @@ class TestClient {
     throw new Error("not implemented");
   }
 
+  @GET("/todos/:id")
+  getTodo(@Path("id") _todoId: number): Promise<Todo> {
+    throw new Error("not implemented");
+  }
+
   @POST("/todos")
   addTodo(@Body _todo: Omit<Todo, "id">): Promise<Pick<Todo, "id">> {
     throw new Error("not implemented");
@@ -65,6 +70,11 @@ Deno.test("getting todos for user", async () => {
   const todos = await new TestClient().getTodosForUser(1);
 
   assertEquals(todos.length, 20);
+});
+
+Deno.test("getting todo", async () => {
+  const todo = await new TestClient().getTodo(1);
+  assertEquals(todo.id, 1);
 });
 
 Deno.test("adding todo", async () => {

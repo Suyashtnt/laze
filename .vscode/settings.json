@@ -4,5 +4,8 @@
   "deno.unstable": true,
   "deno.suggest.imports.hosts": {
     "https://deno.land": true
-  }
+  },
+  "conventionalCommits.scopes": [
+    "todos"
+  ]
 }
