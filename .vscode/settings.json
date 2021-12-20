@@ -6,7 +6,8 @@
     "https://deno.land": true
   },
   "conventionalCommits.scopes": [
-    "todos"
+    "todos",
+    "failing-tests"
   ],
   "[json]": {
     "editor.defaultFormatter": "denoland.vscode-deno"

@@ -46,3 +46,14 @@ Deno.test("header error 2", async () => {
     // the header decorator should throw an error and reach here
   }
 });
+
+Deno.test("client with no methods", () => {
+  try {
+    @RestClient("https://jsonplaceholder.typicode.com")
+    class EmptyClient {}
+    new EmptyClient();
+    throw new Error("should not reach here");
+  } catch (err) {
+    console.log(err.message);
+  }
+});
