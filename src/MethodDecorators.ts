@@ -85,3 +85,5 @@ export const Header: (key: string, value: string) => MethodDecorator = (
   };
 
 export const Auth = (value: string) => Header("Authorization", value);
+export const BasicAuth = (username: string, password: string) =>
+  Auth(`Basic ${btoa(`${username}:${password}`)}`);
