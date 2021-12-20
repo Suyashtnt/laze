@@ -59,8 +59,16 @@ export const Header: (key: string, value: string) => MethodDecorator = (
       httpClassesMetaKey,
       target,
     );
+
+    const err = new Error(
+      `
+      No request found for function ${_methodName.toString()}. You need to decorate it with a HTTP method. (@GET, @POST, etc.) If you have decorated it with a HTTP method, make sure it is the last decorator in the stack.
+       Read this for more: https://www.typescriptlang.org/docs/handbook/decorators.html#decorator-composition
+      `,
+    );
+
     if (!requests) {
-      throw new Error(`No requests found for ${target.constructor.name}`);
+      throw err;
     }
 
     // deno-lint-ignore ban-types
@@ -68,12 +76,7 @@ export const Header: (key: string, value: string) => MethodDecorator = (
 
     const request = requests.find((r) => r.function === propertyValue.name);
     if (!request) {
-      throw new Error(
-        "No request found for this function. " +
-          "You need to decorate it with a HTTP method. (@GET, @POST, etc.) " +
-          "If you have decorated it with a HTTP method, make sure it is the last decorator in the stack." +
-          "\n Read this for more: https://www.typescriptlang.org/docs/handbook/decorators.html#decorator-composition",
-      );
+      throw err;
     }
 
     const newRequest = {
