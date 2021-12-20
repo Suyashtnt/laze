@@ -9,16 +9,10 @@ import {
   PUT,
   Query,
   RestClient,
-} from "./mod.ts";
+} from "../mod.ts";
 
 import { assertEquals } from "https://deno.land/std@0.118.0/testing/asserts.ts";
-
-interface Todo {
-  id: number;
-  userId: number;
-  title: string;
-  completed: boolean;
-}
+import { Todo } from "./types.ts";
 
 @RestClient("https://jsonplaceholder.typicode.com")
 class TestClient {

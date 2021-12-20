@@ -8,7 +8,29 @@ import "https://deno.land/x/reflection@0.0.2/mod.ts";
 
 type Constructor = { new (...args: any[]): any };
 
-export const RestClient = (basePath: string) =>
+interface CustomOptions {
+  /**
+   * custom headers that will be added to every request, method headers will override existing headers
+   * useful for authentication on every request
+   * also for APIs that for some bizzare reason don't support JSON
+   */
+  customHeaders?: Record<string, string>;
+
+  /**
+   * Transform your input data before sending it to the server
+   * @default ohmyfetch uses JSON.stringify
+   */
+  inputParser?: (input: any) => string;
+
+  /**
+   * Transform your output data before sending it back
+   * @default ohmyfetch uses destr, a JSON parser
+   * @see https://github.com/unjs/destr
+   */
+  outputParser?: (output: string) => any;
+}
+
+export const RestClient = (basePath: string, opts?: CustomOptions) =>
   function <T extends Constructor>(baseClass: T): T {
     return class extends baseClass {
       constructor(...args: any[]) {
@@ -43,10 +65,20 @@ export const RestClient = (basePath: string) =>
               ),
             );
 
+            const inputParser = opts?.inputParser;
+
             return $fetch(`${basePath}${compiledPath}?${params}`, {
               method: method.method,
-              headers: Object.fromEntries(method.headers),
-              body: bodyIndex ? methodArgs[bodyIndex] : undefined,
+              headers: {
+                ...opts?.customHeaders,
+                ...Object.fromEntries(method.headers),
+              },
+              body: bodyIndex
+                ? (inputParser
+                  ? inputParser(methodArgs[bodyIndex])
+                  : methodArgs[bodyIndex])
+                : undefined,
+              parseResponse: opts?.outputParser,
             });
           };
         }

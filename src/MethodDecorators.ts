@@ -83,3 +83,5 @@ export const Header: (key: string, value: string) => MethodDecorator = (
     requests.push(newRequest);
     Reflect.defineMetadata(httpClassesMetaKey, requests, target);
   };
+
+export const Auth = (value: string) => Header("Authorization", value);
