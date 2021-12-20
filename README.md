@@ -1,6 +1,7 @@
 # laze
 
-A **tiny** typed class-based REST client based on [ohmyfetch](https://github.com/unjs/ohmyfetch).
+A **tiny** typed class-based REST client based on
+[ohmyfetch](https://github.com/unjs/ohmyfetch).
 
 ## usage
 
