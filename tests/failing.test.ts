@@ -15,7 +15,7 @@ Deno.test("header error", async () => {
     const client = new TestClient();
     await client.getAllTodos();
     throw new Error("should not reach here");
-  } catch (err) {
+  } catch (_err) {
     // the header decorator should throw an error and reach here
   }
 });
@@ -40,7 +40,7 @@ Deno.test("header error 2", async () => {
     const client = new TestClient();
     await client.getAllTodos();
     throw new Error("should not reach here");
-  } catch (err) {
+  } catch (_err) {
     // the header decorator should throw an error and reach here
   }
 });
@@ -51,6 +51,7 @@ Deno.test("client with no methods", () => {
     class EmptyClient {}
     new EmptyClient();
     throw new Error("should not reach here");
-  } catch (err) {
+  } catch (_err) {
+    // the client should throw an error and reach here
   }
 });
