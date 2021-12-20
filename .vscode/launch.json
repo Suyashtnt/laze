@@ -12,6 +12,8 @@
       "runtimeExecutable": "deno",
       "runtimeArgs": [
         "test",
+        "--config",
+        "${workspaceFolder}/deno.json",
         "--unstable",
         "--inspect",
         "--allow-all"

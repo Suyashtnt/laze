@@ -34,7 +34,7 @@ jobs:
         run: deno lint
 
       - name: Run tests
-        run: deno test -A --unstable --coverage=cov_profile
+        run: deno test -A --unstable --coverage=cov_profile --config deno.json
       
       - name: Generate coverage
         run: deno coverage cov_profile --lcov > cov_profile.lcov
